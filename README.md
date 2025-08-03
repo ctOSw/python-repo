@@ -1,1 +1,1 @@
-# Python ile temel projeler.(Siber güvenlik projeleri)
+# Python ile yaptığım siber güvenlik projeleri.
