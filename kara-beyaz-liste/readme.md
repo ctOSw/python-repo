@@ -21,3 +21,5 @@ Uygulama açıldığında aşağıdaki menü sizi karşılar:
 6- Exit
 
 
+- list.json yoksa kendimiz oluşturuyoruz.
+
