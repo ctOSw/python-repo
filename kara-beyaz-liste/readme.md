@@ -19,3 +19,5 @@ Uygulama açıldığında aşağıdaki menü sizi karşılar:
 4- Show list
 5- Delete ip
 6- Exit
+
+
