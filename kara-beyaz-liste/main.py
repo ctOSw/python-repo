@@ -3,6 +3,7 @@ import json
 IP_LIST_FILE = "list.json"
 
 class SecuritySystem :
+    # kara listeye ekleme metodu
     def add_to_blacklist(self,ip) :
         try :
             with open(IP_LIST_FILE,"r") as f :
@@ -19,9 +20,15 @@ class SecuritySystem :
             black_list.append(ip)
             print(black_list)
             
+        # json dosyası yoksa  kendimiz oluşturuyoruz
+        except FileNotFoundError :
 
-        except FileNotFoundError as e :
-            print(e)
+            ip_list = {"blacklist": [], "whitelist": []}
+            with open(IP_LIST_FILE, "w") as f:
+                json.dump(ip_list, f, indent=4)
+            print("⚠️ list.json not found. A new file has been created.")
+            black_list = ip_list["blacklist"]  
+
         except json.JSONDecodeError as e :
             print(e)    
 
@@ -36,8 +43,9 @@ class SecuritySystem :
 
 
 
-
+    # beyaz listeye ekleme metodu
     def add_to_whitelist(self,ip) :
+
         try :
             with open(IP_LIST_FILE,"r") as f :
                 ip_list =  json.load(f)
@@ -52,9 +60,17 @@ class SecuritySystem :
             white_list.append(ip)
             print(white_list)
             
+        # json dosyası yoksa  kendimiz oluşturuyoruz
+        except FileNotFoundError  :
+            ip_list = {"blacklist": [], "whitelist": []}
 
-        except FileNotFoundError as e :
-            print(e)
+            with open(IP_LIST_FILE, "w") as f:
+                json.dump(ip_list, f, indent=4)
+
+            print("⚠️ list.json not found. A new file has been created.")
+            
+            white_list = ip_list["whitelist"]  
+
         except json.JSONDecodeError as e :
             print(e)    
 
@@ -67,7 +83,7 @@ class SecuritySystem :
 
 
 
-
+    # erişim kontroş metodu
     def check_access(self,ip) :
         try :
             with open(IP_LIST_FILE,"r") as f :
@@ -83,17 +99,27 @@ class SecuritySystem :
                 print("🤔 Unknown ip.Ip is not on any list")    
            
             
+        # json dosyası yoksa  kendimiz oluşturuyoruz
+        except FileNotFoundError  :
+            ip_list = {"blacklist": [], "whitelist": []}
 
-        except FileNotFoundError as e :
-            print(e)
+            with open(IP_LIST_FILE, "w") as f:
+                json.dump(ip_list, f, indent=4)
+
+            print("⚠️ list.json not found. A new file has been created.")
+
+            black_list = ip_list["blacklist"] 
+            white_list = ip_list["whitelist"]
+
         except json.JSONDecodeError as e :
             print(e)    
 
 
 
 
-
+    # ip listesini listeleme metodu
     def show_lists(self) :
+        # Listeleniyor
         try :
             with open(IP_LIST_FILE,"r") as f :
                 ip_list =  json.load(f)
@@ -111,17 +137,26 @@ class SecuritySystem :
 
             print("-" * 70)   
 
+        # json dosyası yoksa  kendimiz oluşturuyoruz
+        except FileNotFoundError :
+            ip_list = {"blacklist": [], "whitelist": []}
 
-        except FileNotFoundError as e :
-            print(e)
+            with open(IP_LIST_FILE, "w") as f:
+                json.dump(ip_list, f, indent=4)
+
+            print("⚠️ list.json not found. A new file has been created.")
+
+            black_list = ip_list["blacklist"] 
+            white_list = ip_list["whitelist"]
         except json.JSONDecodeError as e :
             print(e)    
 
 
 
 
-
-    def delete_ip(self,ip) : 
+    # ip silme metodu
+    def delete_ip(self,ip) :
+        # ip silme kısmı
          try :
             with open(IP_LIST_FILE,"r") as f :
                 ip_list =  json.load(f)
@@ -152,12 +187,21 @@ class SecuritySystem :
                 print("-" * 60)   
                 print("Unknown ip.Ip is not on any list.")
                 print("-" * 60)   
+        # ip silme kısmı
 
+        # json dosyası yoksa  kendimiz oluşturuyoruz
+         except FileNotFoundError :
+            ip_list = {"blacklist": [], "whitelist": []}
 
-          
+            with open(IP_LIST_FILE, "w") as f:
+                json.dump(ip_list, f, indent=4)
+                
+            print("⚠️ list.json not found. A new file has been created.")
 
-         except FileNotFoundError as e :
-             print(e)
+            black_list = ip_list["blacklist"] 
+            white_list = ip_list["whitelist"]
+        
+         
          except json.JSONDecodeError as e :
             print(e)    
 
@@ -166,7 +210,7 @@ class SecuritySystem :
              json.dump(ip_list,f,indent=4)    
 
 
-
+# ip kontrol metodu.Geçerli oktet olup olmadığı,oktet aralığı.
 def ip_control() :
     while True :
         ip_address = input("Please enter a valid IP address : ").strip("")
